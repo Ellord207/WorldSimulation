@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseWorld.h" />
     <ClInclude Include="Natrue.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
