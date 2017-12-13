@@ -1,8 +1,8 @@
 #pragma once
 
-
 enum BiomeType
 {
+	Wasteland,
 	Forest,
 	Quarry,
 	Plains,
@@ -10,12 +10,15 @@ enum BiomeType
 	Desert,
 	Volcanic,
 	Water,
-	Road,
-	Vilage
 };
 
 struct Biome
 {
+	Biome()
+	{
+		type = Wasteland;
+		magnitude = 10;
+	}
 	BiomeType type;
 	int magnitude;
 };
@@ -30,8 +33,6 @@ class NaturalResources
 
     public:
 
-        bool SetBiome(int x, int y, BiomeType type, int r, int magnitude);
-        int GetBiomes(int x, int y, BiomeType*);
         NaturalResources();
         ~NaturalResources();
 
