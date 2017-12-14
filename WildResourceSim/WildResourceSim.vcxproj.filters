@@ -24,10 +24,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Natrue.h">
+    <ClInclude Include="BaseWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseWorld.h">
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
