@@ -15,7 +15,8 @@ int main()
 
 	BaseWorld world = BaseWorld(5, 12);
 
-	std::cout << "Is there wasteland: " << world.isBiome(1, 1, Wasteland) << std::endl;
+	std::cout << "Is there wasteland: " << world.IsBiome(1, 1, Wasteland) << std::endl;
+	std::cout << "Is there Desert: " << world.IsBiome(1, 1, Desert) << std::endl;
 
     printf("Press enter to exit...");
     scanf_s("poop");

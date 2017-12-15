@@ -14,7 +14,9 @@ class BaseWorld
 
 
 public:
-	bool isBiome(uint32_t x, uint32_t y, BiomeType biome);	// returns true, if the tile at the location has the give type of Biome
+	inline bool IsBiome(uint32_t x, uint32_t y, BiomeType biome);	// returns true, if the tile at the location has the give type of Biome
+
+
 	BaseWorld(uint32_t width, uint32_t hight);
 	~BaseWorld();
 
@@ -24,25 +26,16 @@ private:
 	uint32_t m_hight;
 
 protected:
-	Tile getGridTile(uint32_t x, uint32_t y);				// returns the Tile at a localtion  ?should this be a copy?  Another function???
+	inline Tile GetGridTile(uint32_t x, uint32_t y);				// returns a copy of the Tile at a localtion
+	inline void GetGridTiles(uint32_t x, uint32_t y, unsigned int& radius, Tile*& tiles, int& tileCount);
 
 };
 
-inline bool BaseWorld::isBiome(uint32_t x, uint32_t y, BiomeType t_biome)
+inline bool BaseWorld::IsBiome(uint32_t x, uint32_t y, BiomeType t_biome)
 {
-	Tile t = getGridTile(x, y);
-	bool returnValue = false;
-	Biome* biomesArray;
-	int biomeCount;
-	t.GetAllBiomes(biomesArray, biomeCount);
-
-	for (int i = 0; i < biomeCount; i++)
-	{
-		if (biomesArray[i].type == t_biome)
-			returnValue = true;
-	}
-	delete biomesArray;
-	return returnValue;
+	Tile t = GetGridTile(x, y);
+	Biome b;
+	return (bool)t.GetBiome(t_biome, b);
 }
 
 BaseWorld::BaseWorld(uint32_t width, uint32_t hight)
@@ -60,12 +53,19 @@ BaseWorld::~BaseWorld()
 	m_tileGrid.clear();
 }
 
-inline Tile BaseWorld::getGridTile(uint32_t x, uint32_t y)
+inline Tile BaseWorld::GetGridTile(uint32_t x, uint32_t y)
 {
 	int length = m_width* m_hight;
 	int index = x * m_width + y;
 	if (index >= length)
 		throw;
-	// should probably return a copy of this memory, but not right.
-	return *m_tileGrid[index];
+
+	return *(new Tile(*m_tileGrid[index]));
+}
+
+inline void BaseWorld::GetGridTiles(uint32_t x, uint32_t y, unsigned int & radius, Tile *& tiles, int & tileCount)
+{
+	// needs to return an array of all the Tiles in a radius
+	// equation for a circle: (x – h)^2 + (y – k)^2 = r^2
+	// https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
 }
