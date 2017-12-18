@@ -6,6 +6,8 @@
 #include <iterator>
 #include <exception>
 
+using namespace Nature;
+
 class BaseWorld
 {
 public:

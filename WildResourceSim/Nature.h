@@ -1,5 +1,9 @@
 #pragma once
 
+
+namespace Nature
+{
+
 enum BiomeType
 {
 	Wasteland,
@@ -43,3 +47,5 @@ struct Biome
 	BiomeType type;
 	int magnitude;
 };
+
+}

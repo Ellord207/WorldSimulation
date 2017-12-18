@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include "Nature.h"
 
+using namespace Nature;
+
 class Tile
 {
 public:
