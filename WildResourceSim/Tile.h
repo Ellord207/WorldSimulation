@@ -3,8 +3,6 @@
 #include "stdafx.h"
 #include "Nature.h"
 
-using namespace Nature;
-
 class Tile
 {
 public:
@@ -13,12 +11,12 @@ public:
 
 	inline Tile DeepCopy(Tile deepCopy);			// Creats a deep copy of the Tile passed in
 
-	void AddBiome(Biome biome);						// adds a new Biome, if autoFinalize is true, it will combine with any others of the same type.  Otherwise, it will exsist seperatly.
-	bool RemoveBiome(BiomeType biomeType);			// removes all biomes of the given type, returns true if at least one is removed
+	void AddBiome(Nature::Biome biome);						// adds a new Biome, if autoFinalize is true, it will combine with any others of the same type.  Otherwise, it will exsist seperatly.
+	bool RemoveBiome(Nature::BiomeType biomeType);			// removes all biomes of the given type, returns true if at least one is removed
 
 	inline int GetBiomeCount();						// will return the number of biomes.  * Use this and do not just call for member varible *
-	inline void GetAllBiomes(Biome*& biomes, int& biomeCount);	// returns all biomes in the tile
-	inline int GetBiome(BiomeType biomeType, Biome& biome); //returns the count of the given type and "biome" will referense a biome of that type, the biome will contain a average of the Biomes Magnitude
+	inline void GetAllBiomes(Nature::Biome*& biomes, int& biomeCount);	// returns all biomes in the tile
+	inline int GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome); //returns the count of the given type and "biome" will referense a biome of that type, the biome will contain a average of the Biomes Magnitude
 	inline void ClearBiome();						// will remove all Biomes and assign it to be a wasteland.
 
 	inline void FinalizeBiomes();  // makes sure there are only one of each Biome * sets autofinalize to true *
@@ -28,11 +26,11 @@ public:
 
 private:
 	int m_biomeCount;
-	Biome* m_biomes;
+	Nature::Biome* m_biomes;
 	bool f_finalized = false;
 	bool f_autoFinalize = false;
 
-	inline int GetBiomeCount(BiomeType type);
+	inline int GetBiomeCount(Nature::BiomeType type);
 	//Resources * TODO *
 	//  Still haven't decided how this is going to go.
 };
@@ -50,8 +48,8 @@ inline Tile::Tile(Tile & t)
 	f_autoFinalize = t.f_autoFinalize;
 	f_finalized = t.f_finalized;
 	
-	int size = GetBiomeCount() * sizeof(Biome);
-	m_biomes = (Biome*)malloc(size);
+	int size = GetBiomeCount() * sizeof(Nature::Biome);
+	m_biomes = (Nature::Biome*)malloc(size);
 	memcpy(m_biomes, t.m_biomes, size);
 }
 
@@ -60,7 +58,7 @@ inline Tile Tile::DeepCopy(Tile deepCopy)
 	return Tile(deepCopy);
 }
 
-void Tile::AddBiome(Biome biome)
+void Tile::AddBiome(Nature::Biome biome)
 {
 	f_finalized = false;
 	m_biomeCount++;
@@ -70,9 +68,9 @@ void Tile::AddBiome(Biome biome)
 	}
 	else
 	{
-		Biome* temp = m_biomes;
-		m_biomes = new Biome[m_biomeCount];
-		size_t size = sizeof(Biome) * (m_biomeCount - 1);
+		Nature::Biome* temp = m_biomes;
+		m_biomes = new Nature::Biome[m_biomeCount];
+		size_t size = sizeof(Nature::Biome) * (m_biomeCount - 1);
 		memcpy(m_biomes, temp, size);
 		delete temp;
 	}
@@ -80,7 +78,7 @@ void Tile::AddBiome(Biome biome)
 		FinalizeBiomes();
 }
 
-bool Tile::RemoveBiome(BiomeType biomeType)
+bool Tile::RemoveBiome(Nature::BiomeType biomeType)
 {
 	int length = GetBiomeCount();
 	bool retValue = false;
@@ -90,17 +88,17 @@ bool Tile::RemoveBiome(BiomeType biomeType)
 		if (m_biomes[i].type == biomeType)
 		{
 			retValue = true;
-			size_t newSize = sizeof(Biome) * length - 1;
-			Biome* temp = m_biomes;
-			m_biomes = (Biome*)malloc(newSize);
+			size_t newSize = sizeof(Nature::Biome) * length - 1;
+			Nature::Biome* temp = m_biomes;
+			m_biomes = (Nature::Biome*)malloc(newSize);
 			if (i > 0)
 			{// copy first half of array
-				size_t size = sizeof(Biome) * i;
+				size_t size = sizeof(Nature::Biome) * i;
 				memcpy(m_biomes, temp, size);
 			}
 			if (i + 1 < length)
 			{
-				size_t size = sizeof(Biome) * (length - i - 1);
+				size_t size = sizeof(Nature::Biome) * (length - i - 1);
 				memcpy(m_biomes + i, temp + i + 1, size);
 			}
 			delete temp;
@@ -126,15 +124,15 @@ inline int Tile::GetBiomeCount()
 
 }
 
-inline void Tile::GetAllBiomes(Biome *& biomes, int & biomeCount)
+inline void Tile::GetAllBiomes(Nature::Biome *& biomes, int & biomeCount)
 {
-	size_t size = sizeof(Biome) * GetBiomeCount();
-	biomes = (Biome*)malloc(size);
+	size_t size = sizeof(Nature::Biome) * GetBiomeCount();
+	biomes = (Nature::Biome*)malloc(size);
 	memcpy(biomes, m_biomes, size);
 	biomeCount = GetBiomeCount();
 }
 
-inline int Tile::GetBiome(BiomeType biomeType, Biome& biome)
+inline int Tile::GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome)
 {
 	biome.type = biomeType;
 	biome.magnitude = 0;
@@ -161,14 +159,14 @@ inline void Tile::ClearBiome()
 {
 	m_biomeCount = 0;
 	delete m_biomes;
-	m_biomes = new Biome[1];
+	m_biomes = new Nature::Biome[1];
 	f_finalized = true;
 	f_autoFinalize = false;
 }
 
-inline int Tile::GetBiomeCount(BiomeType biomeType)
+inline int Tile::GetBiomeCount(Nature::BiomeType biomeType)
 {
-	Biome b;
+	Nature::Biome b;
 	return GetBiome(biomeType, b);
 }
 
@@ -178,7 +176,7 @@ inline void Tile::FinalizeBiomes()
 		return;  // No reason to do it again.
 
 	int length = GetBiomeCount();
-	Biome holdMyBiome;
+	Nature::Biome holdMyBiome;
 	for (int i = 0; i < length; i++)
 	{
 		holdMyBiome.type = m_biomes[i].type;

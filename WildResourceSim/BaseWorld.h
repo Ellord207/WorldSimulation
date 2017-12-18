@@ -6,14 +6,12 @@
 #include <iterator>
 #include <exception>
 
-using namespace Nature;
-
 class BaseWorld
 {
 public:
-	inline bool IsBiome(uint32_t x, uint32_t y, BiomeType biome);	// returns true, if the tile at the location has the give type of Biome
-	inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Biome b);
-	inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, BiomeType bType, int bMagnitude);
+	inline bool IsBiome(uint32_t x, uint32_t y, Nature::BiomeType biome);	// returns true, if the tile at the location has the give type of Biome
+	inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::Biome b);
+	inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::BiomeType bType, int bMagnitude);
 
 	BaseWorld(uint32_t width, uint32_t hight);
 	~BaseWorld();
@@ -38,23 +36,23 @@ protected:
 };
 
 // =========== Puplic =========== //
-inline bool BaseWorld::IsBiome(uint32_t x, uint32_t y, BiomeType t_biome)
+inline bool BaseWorld::IsBiome(uint32_t x, uint32_t y, Nature::BiomeType t_biome)
 {
 	Tile t = GetGridTile(x, y);
-	Biome b;
+	Nature::Biome b;
 	return (bool)t.GetBiome(t_biome, b);
 }
 
-inline void BaseWorld::SetBiome(uint32_t x, uint32_t y, unsigned int r, Biome b)
+inline void BaseWorld::SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::Biome b)
 {
-	Biome* bPtr = &b;
+	Nature::Biome* bPtr = &b;
 	void* args = bPtr;
 	OperateOnSphere(x, y, r, OperationAddBiome, args);
 }
 
-inline void BaseWorld::SetBiome(uint32_t x, uint32_t y, unsigned int r, BiomeType bType, int bMagnitude)
+inline void BaseWorld::SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::BiomeType bType, int bMagnitude)
 {
-	Biome b = Biome(bType, bMagnitude);
+	Nature::Biome b = Nature::Biome(bType, bMagnitude);
 	SetBiome(x, y, r, b);
 }
 
@@ -113,7 +111,7 @@ inline void BaseWorld::OperateOnSphere
 
 inline void BaseWorld::OperationAddBiome(Tile * tile, const void* args)
 {
-	Biome* b = (Biome*)args;
+	Nature::Biome* b = (Nature::Biome*)args;
 	tile->AddBiome(*b);
 }
 
