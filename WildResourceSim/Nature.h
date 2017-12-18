@@ -35,6 +35,11 @@ struct Biome
 		type = Wasteland;
 		magnitude = 10;
 	}
+	Biome(BiomeType t, int mag)
+	{
+		type = t;
+		magnitude = mag;
+	}
 	BiomeType type;
 	int magnitude;
 };
