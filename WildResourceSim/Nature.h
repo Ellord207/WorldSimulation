@@ -30,6 +30,21 @@ namespace Nature
 		// other -> movement and such
 		int water = 0;
 		int terrain = 0;
+
+		enum 
+		{
+			Crops,
+			Wildlife,
+			Cattle,
+			Wood,
+			Stone,
+			Water,
+			Terrain,
+			NUMBER_OF_TYPES
+		}ResourceType;
+
+		typedef int Nature::Resources::ResourceTypes;
+
 	};
 
 	struct Biome
@@ -39,11 +54,9 @@ namespace Nature
 			type = Wasteland;
 			magnitude = 10;
 		}
-		Biome(BiomeType t, int mag)
-		{
-			type = t;
-			magnitude = mag;
-		}
+		Biome(BiomeType t, int mag) : type(t), magnitude(mag) 
+		{}
+
 		BiomeType type;
 		int magnitude;
 	};

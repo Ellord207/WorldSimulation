@@ -6,6 +6,7 @@
 class Tile
 {
 public:
+	//   *TODO * make this thread safe  ///
 	Tile();
 	Tile(Tile& deepCopy);	// Creats a deep copy of the Tile passed in
 
@@ -22,6 +23,10 @@ public:
 	inline void FinalizeBiomes();  // makes sure there are only one of each Biome * sets autofinalize to true *
 	inline bool IsFinalized();
 	inline void SetAutoFinalize(bool autoFinalize);
+
+	inline Nature::Resources AvailableResources();				// returns a deep copy of the available resources 
+	inline bool RequestResources(Nature::Resources& order);		// takes an order for resources and will hand back the resources that could be filled by the order.  Will return ture if the order was filled.
+
 	~Tile();
 
 private:
@@ -31,11 +36,27 @@ private:
 	bool f_autoFinalize = false;
 
 	inline int GetBiomeCount(Nature::BiomeType type);
+
+	class
+	{
+	public:
+		Nature::Resources CreateResourcesStruct()
+		{
+		
+		}
+
+		Nature::Resources CreateResourcesStruct(Nature::Resources::ResourceTypes type)
+		{
+
+		}
+	private:
+
+	}m_resources;
+
+
 	//Resources * TODO *
 	//  Still haven't decided how this is going to go.
 };
-
-
 
 inline Tile::Tile()
 {
@@ -198,6 +219,16 @@ inline bool Tile::IsFinalized()
 inline void Tile::SetAutoFinalize(bool autoFinalize)
 {
 	f_autoFinalize = autoFinalize;
+}
+
+inline Nature::Resources Tile::AvailableResources()
+{
+	return  
+}
+
+inline bool Tile::RequestResources(Nature::Resources & order)
+{
+	return false;
 }
 
 inline Tile::~Tile()
