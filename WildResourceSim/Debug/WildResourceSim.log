@@ -1,2 +1,7 @@
-﻿  WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.exe
+﻿  stdafx.cpp
+  WildResourceSim.cpp
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(74): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(142): warning C4018: '<': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(144): warning C4018: '<': signed/unsigned mismatch
+  WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.exe
   WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.pdb (Full PDB)

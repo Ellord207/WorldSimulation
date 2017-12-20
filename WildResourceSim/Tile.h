@@ -1,13 +1,17 @@
 #pragma once
 
 #include "stdafx.h"
+#include <stdint.h>
 #include "Nature.h"
 
 class Tile
 {
 public:
-	//   *TODO * make this thread safe  ///
-	Tile();
+	uint32_t X;
+	uint32_t Y;
+
+	//   *TODO * make all this thread safe  ///
+	Tile(uint32_t x, uint32_t y);
 	Tile(Tile& deepCopy);	// Creats a deep copy of the Tile passed in
 
 	inline Tile DeepCopy(Tile deepCopy);			// Creats a deep copy of the Tile passed in
@@ -25,7 +29,8 @@ public:
 	inline void SetAutoFinalize(bool autoFinalize);
 
 	inline Nature::Resources AvailableResources();				// returns a deep copy of the available resources 
-	inline bool RequestResources(Nature::Resources& order);		// takes an order for resources and will hand back the resources that could be filled by the order.  Will return ture if the order was filled.
+	inline int Tile::AvailableResources(Nature::Resources::ResourceTypes type);
+	inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amount); // takes an order for resources and will hand back the resources that could be filled by the order.  Will return ture if the order was filled.
 
 	~Tile();
 
@@ -40,27 +45,46 @@ private:
 	class
 	{
 	public:
-		Nature::Resources CreateResourcesStruct()
+		inline void ClearResourceStorage()
 		{
-		
+			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
+			{
+				m_resourcesArray[i] = 0;
+			}
 		}
 
-		Nature::Resources CreateResourcesStruct(Nature::Resources::ResourceTypes type)
+		inline Nature::Resources PeekResourcesStruct()
 		{
-
+			Nature::Resources r = Nature::Resources();
+			r.cattle = PeekResource(ResType::Cattle);
+			r.crops = PeekResource(ResType::Crops);
+			r.stone = PeekResource(ResType::Stone);
+			r.terrain = PeekResource(ResType::Terrain);
+			r.water = PeekResource(ResType::Water);
+			r.wildlife = PeekResource(ResType::Wildlife);
+			r.wood = PeekResource(ResType::Wood);
+			return r;
+		}
+		inline int PeekResource(Nature::Resources::ResourceTypes type)
+		{
+			return m_resourcesArray[type];
+		}
+		inline void SetResource(Nature::Resources::ResourceTypes type, int value)
+		{
+			m_resourcesArray[type] = value;
 		}
 	private:
-
+		typedef Nature::Resources::ResourceTypes ResType;
+		int m_resourcesArray[ResType::NUMBER_OF_TYPES];
 	}m_resources;
-
-
-	//Resources * TODO *
-	//  Still haven't decided how this is going to go.
 };
 
-inline Tile::Tile()
+inline Tile::Tile(uint32_t x, uint32_t y)
 {
+	X = x;
+	Y = y;
 	ClearBiome();
+	m_resources.ClearResourceStorage();
 }
 
 inline Tile::Tile(Tile & t)
@@ -223,12 +247,26 @@ inline void Tile::SetAutoFinalize(bool autoFinalize)
 
 inline Nature::Resources Tile::AvailableResources()
 {
-	return  
+	return  m_resources.PeekResourcesStruct();
 }
 
-inline bool Tile::RequestResources(Nature::Resources & order)
+inline int Tile::AvailableResources(Nature::Resources::ResourceTypes type)
 {
-	return false;
+	return  m_resources.PeekResource(type);
+}
+
+inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amount)
+{
+	int resource = m_resources.PeekResource(type);
+	int resourceRemaining = resource - amount;
+	if (resourceRemaining < 0)
+	{
+		amount = resource;
+		resourceRemaining = 0;
+	}
+	m_resources.SetResource(type, resourceRemaining);
+
+	return amount;
 }
 
 inline Tile::~Tile()

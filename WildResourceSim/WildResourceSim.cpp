@@ -13,7 +13,7 @@ int main()
 
     printf("Welcome to Nature's resource sim.\n");
 
-	BaseWorld world = BaseWorld(12, 12);
+	World::BaseWorld world = World::BaseWorld(12, 12);
 	world.SetBiome(5, 5, 2, Nature::Forest, 4);
 
 	std::cout << "Is there wasteland: " << world.IsBiome(1, 1, Nature::Wasteland) << std::endl;	//true 1
