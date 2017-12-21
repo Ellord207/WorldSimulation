@@ -47,7 +47,7 @@ namespace World
 		BaseWorld(uint32_t width, uint32_t hight);
 		~BaseWorld();
 
-		// TileRefences in the Cache can use to get the actual Tiles from the world object
+		// TileRefences in the Cache can use to get the actual Tiles from the world object  ------  Reference: http://en.cppreference.com/w/cpp/container/priority_queue
 		typedef std::priority_queue<TileReference, std::vector<TileReference>, decltype(&TileReference::cmp)> TileCache;
 		TileCache BuildCache(Tile tile, unsigned int radius);
 		Tile GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
