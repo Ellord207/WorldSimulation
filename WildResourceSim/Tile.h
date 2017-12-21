@@ -7,27 +7,25 @@
 class Tile
 {
 public:
-	uint32_t X;
-	uint32_t Y;
+	uint32_t x ,y;
 
-	//   *TODO * make all this thread safe  ///
+	//   * TODO * make all this thread safe  ///
 	Tile(uint32_t x, uint32_t y);
 	Tile(Tile& deepCopy);	// Creats a deep copy of the Tile passed in
-
-	inline Tile DeepCopy(Tile deepCopy);			// Creats a deep copy of the Tile passed in
 
 	void AddBiome(Nature::Biome biome);						// adds a new Biome, if autoFinalize is true, it will combine with any others of the same type.  Otherwise, it will exsist seperatly.
 	bool RemoveBiome(Nature::BiomeType biomeType);			// removes all biomes of the given type, returns true if at least one is removed
 
-	inline int GetBiomeCount();						// will return the number of biomes.  * Use this and do not just call for member varible *
+	inline int GetBiomeCount();						// will return the number of biomes (takes into account for the default wasteland).  * Use this and do not just call for member varible *
 	inline void GetAllBiomes(Nature::Biome*& biomes, int& biomeCount);	// returns all biomes in the tile
 	inline int GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome); //returns the count of the given type and "biome" will referense a biome of that type, the biome will contain a average of the Biomes Magnitude
 	inline void ClearBiome();						// will remove all Biomes and assign it to be a wasteland.
 
-	inline void FinalizeBiomes();  // makes sure there are only one of each Biome * sets autofinalize to true *
+	inline void FinalizeBiomes();  // makes sure there are only one of each Biome *sets autofinalize to true*
 	inline bool IsFinalized();
 	inline void SetAutoFinalize(bool autoFinalize);
 
+	//  These only reference the orignal Tile  Yeah, this is a bit janky
 	inline Nature::Resources AvailableResources();				// returns a deep copy of the available resources 
 	inline int Tile::AvailableResources(Nature::Resources::ResourceTypes type);
 	inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amount); // takes an order for resources and will hand back the resources that could be filled by the order.  Will return ture if the order was filled.
@@ -35,8 +33,9 @@ public:
 	~Tile();
 
 private:
-	int m_biomeCount;
-	Nature::Biome* m_biomes;
+	int m_biomeCount;			// Number of biomes present ( does not include the defualt wasteland
+	Nature::Biome* m_biomes;	// List of biomes present
+	Tile* m_orignalTile;		// used to reference the orignal tile for resources and such
 	bool f_finalized = false;
 	bool f_autoFinalize = false;
 
@@ -73,6 +72,7 @@ private:
 		{
 			m_resourcesArray[type] = value;
 		}
+
 	private:
 		typedef Nature::Resources::ResourceTypes ResType;
 		int m_resourcesArray[ResType::NUMBER_OF_TYPES];
@@ -81,8 +81,9 @@ private:
 
 inline Tile::Tile(uint32_t x, uint32_t y)
 {
-	X = x;
-	Y = y;
+	this->x = x;
+	this->y = y;
+	this->m_orignalTile = this;
 	ClearBiome();
 	m_resources.ClearResourceStorage();
 }
@@ -92,15 +93,11 @@ inline Tile::Tile(Tile & t)
 	m_biomeCount = t.m_biomeCount;
 	f_autoFinalize = t.f_autoFinalize;
 	f_finalized = t.f_finalized;
+	m_orignalTile = t.m_orignalTile;
 	
 	int size = GetBiomeCount() * sizeof(Nature::Biome);
 	m_biomes = (Nature::Biome*)malloc(size);
 	memcpy(m_biomes, t.m_biomes, size);
-}
-
-inline Tile Tile::DeepCopy(Tile deepCopy)
-{
-	return Tile(deepCopy);
 }
 
 void Tile::AddBiome(Nature::Biome biome)
@@ -247,24 +244,24 @@ inline void Tile::SetAutoFinalize(bool autoFinalize)
 
 inline Nature::Resources Tile::AvailableResources()
 {
-	return  m_resources.PeekResourcesStruct();
+	return  m_orignalTile->m_resources.PeekResourcesStruct();
 }
 
 inline int Tile::AvailableResources(Nature::Resources::ResourceTypes type)
 {
-	return  m_resources.PeekResource(type);
+	return  m_orignalTile->m_resources.PeekResource(type);
 }
 
 inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amount)
 {
-	int resource = m_resources.PeekResource(type);
+	int resource = m_orignalTile->m_resources.PeekResource(type);
 	int resourceRemaining = resource - amount;
 	if (resourceRemaining < 0)
 	{
 		amount = resource;
 		resourceRemaining = 0;
 	}
-	m_resources.SetResource(type, resourceRemaining);
+	m_orignalTile->m_resources.SetResource(type, resourceRemaining);
 
 	return amount;
 }

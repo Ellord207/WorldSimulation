@@ -11,25 +11,27 @@
 
 namespace World
 { 
-	struct RelativeTile : Tile
+	struct TileReference
 	{
-	public:
 		int distance;
-		RelativeTile(Tile tile, uint32_t x0, uint32_t y0) : Tile(tile)
+		uint32_t x, y;
+		TileReference(Tile tile, uint32_t xOrgin, uint32_t yOrgin)
 		{
-			distance = DistanceBetweenTiles(x0, y0, *this);
+			x = tile.x;
+			y = tile.y;
+			distance = DistanceBetweenTiles(xOrgin, yOrgin, *this);
 		}
-		static inline double DistanceBetweenTiles(RelativeTile t0, RelativeTile t1)
+		static inline double DistanceBetweenTiles(TileReference tOrgin, TileReference t1)
 		{
-			DistanceBetweenTiles(t0.X, t0.Y, t1);
+			DistanceBetweenTiles(tOrgin.x, tOrgin.y, t1);
 		}
-		static inline double DistanceBetweenTiles(uint32_t x, uint32_t y, RelativeTile t1)
+		static inline double DistanceBetweenTiles(uint32_t x, uint32_t y, TileReference t1)
 		{
-			int distancex = (t1.X - x) * (t1.X - x);
-			int distancey = (t1.Y - y) * (t1.Y - y);
+			int distancex = (t1.x - x) * (t1.x - x);
+			int distancey = (t1.y - y) * (t1.y - y);
 			return (int)sqrt(distancex - distancey);
 		}
-		static inline bool cmp(RelativeTile left, RelativeTile right)
+		static inline bool cmp(TileReference left, TileReference right)
 		{
 			return left.distance > right.distance;
 		}
@@ -45,9 +47,10 @@ namespace World
 		BaseWorld(uint32_t width, uint32_t hight);
 		~BaseWorld();
 
-		// Tiles in the Cache are deep copied from the Tile collection
-		typedef std::priority_queue<RelativeTile, std::vector<RelativeTile>, decltype(&RelativeTile::cmp) > TileCache;
+		// TileRefences in the Cache can use to get the actual Tiles from the world object
+		typedef std::priority_queue<TileReference, std::vector<TileReference>, decltype(&TileReference::cmp)> TileCache;
 		TileCache BuildCache(Tile tile, unsigned int radius);
+		Tile GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
 
 	private:
 		std::vector<Tile*> m_tileGrid;
@@ -56,7 +59,7 @@ namespace World
 		inline Tile* GetGridTilePtr(uint32_t x, uint32_t y);				// returns a Pointer to the Tile at a localtion
 
 																			// === Operations on Spheres === //
-		inline void OperateOnSphere
+		void OperateOnSphere
 		(
 			uint32_t x, uint32_t y, unsigned int& radius,
 			void func(Tile* tile, void* args),
@@ -67,8 +70,6 @@ namespace World
 
 	protected:
 		inline Tile GetGridTile(uint32_t x, uint32_t y);				// returns a copy of the Tile at a localtion
-
-
 	};
 
 	// =========== Puplic =========== //
@@ -104,7 +105,6 @@ namespace World
 			uint32_t y = i % m_width;
 			m_tileGrid.push_back(new Tile(x,y));
 		}
-		
 	}
 
 	BaseWorld::~BaseWorld()
@@ -117,11 +117,16 @@ namespace World
 		TileCache cache = TileCache();
 		void* data[3];
 		data[0] = &cache;
-		data[1] = &tile.X;
-		data[2] = &tile.Y;
+		data[1] = &tile.x;
+		data[2] = &tile.y;
 		void* args = data;
-		OperateOnSphere(tile.X, tile.Y, radius, OperationCacheTile, args);
+		OperateOnSphere(tile.x, tile.y, radius, OperationCacheTile, args);
 		return TileCache();
+	}
+
+	inline Tile BaseWorld::GetGridTile(TileReference tileRef)
+	{
+		return GetGridTile(tileRef.x, tileRef.y);
 	}
 
 	// =========== Private =========== //
@@ -137,7 +142,7 @@ namespace World
 	// =========== ======== =========== //
 	// ======== Operations ======== //
 	// =========== ======== =========== //
-	inline void BaseWorld::OperateOnSphere
+	void BaseWorld::OperateOnSphere
 	(
 		uint32_t x0, uint32_t y0, unsigned int & radius,
 		void func(Tile* tile, void* args),
@@ -174,7 +179,7 @@ namespace World
 		BaseWorld::TileCache* cache = (BaseWorld::TileCache*)data[0];
 		uint32_t x = *(int*)data[1];
 		uint32_t y = *(int*)data[2];
-		RelativeTile* rTile = new RelativeTile(*tile, x, y);
+		TileReference* rTile = new TileReference(*tile, x, y);
 		cache->push(*rTile);
 	}
 
