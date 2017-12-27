@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="BaseWorld.h" />
     <ClInclude Include="Nature.h" />
     <ClInclude Include="stdafx.h" />
