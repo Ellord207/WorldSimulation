@@ -114,6 +114,7 @@ void Tile::AddBiome(Nature::Biome biome)
 		m_biomes = new Nature::Biome[m_biomeCount];
 		size_t size = sizeof(Nature::Biome) * (m_biomeCount - 1);
 		memcpy(m_biomes, temp, size);
+		m_biomes[m_biomeCount - 1] = biome;
 		delete temp;
 	}
 	if (f_autoFinalize)
