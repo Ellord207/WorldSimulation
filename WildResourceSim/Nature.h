@@ -23,7 +23,6 @@ namespace Nature
 		https://stackoverflow.com/questions/11031062/c-preprocessor-avoid-code-repetition-of-member-variable-list/11744832#11744832
 		https://stackoverflow.com/questions/19059157/iterate-through-struct-and-class-members
 		*/
-
 		// food -> dependant for population
 		int crops = 0;
 		int wildlife = 0;
@@ -53,13 +52,13 @@ namespace Nature
 
 	struct Biome
 	{
-		Biome() : type(Nature::Wasteland), magnitude(10)
+		Biome() : type(Nature::Wasteland), magnitude(0)
 		{}
 		Biome(BiomeType t, int mag) : type(t), magnitude(mag) 
 		{}
 
 		BiomeType type;
-		int magnitude;
+		float  magnitude;
 	};
 
 }

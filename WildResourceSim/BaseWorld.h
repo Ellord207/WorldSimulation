@@ -43,6 +43,7 @@ namespace World
 		inline bool IsBiome(uint32_t x, uint32_t y, Nature::BiomeType biome);	// returns true, if the tile at the location has the give type of Biome
 		inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::Biome b);
 		inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::BiomeType bType, int bMagnitude);
+		inline void FinalizeWorld();
 
 		BaseWorld(uint32_t width, uint32_t hight);
 		~BaseWorld();
@@ -53,6 +54,7 @@ namespace World
 		Tile GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
 
 	private:
+		//typedef std::iterator<Tile*>
 		std::vector<Tile*> m_tileGrid;
 		uint32_t m_width;
 		uint32_t m_hight;
@@ -68,7 +70,7 @@ namespace World
 		static inline void OperationAddBiome(Tile* tile, void* args);
 		static inline void OperationCacheTile(Tile* tile, void* args);
 
-	protected:
+	public: // protected:  // Change this and use a TileCache for the test.
 		inline Tile GetGridTile(uint32_t x, uint32_t y);				// returns a copy of the Tile at a localtion
 	};
 
@@ -91,6 +93,11 @@ namespace World
 	{
 		Nature::Biome b = Nature::Biome(bType, bMagnitude);
 		SetBiome(x, y, r, b);
+	}
+
+	inline void BaseWorld::FinalizeWorld()
+	{
+		std::for_each(m_tileGrid.begin(), m_tileGrid.end(), [](Tile* x) {x->FinalizeBiomes(); });
 	}
 
 	BaseWorld::BaseWorld(uint32_t width, uint32_t hight)

@@ -26,6 +26,7 @@ int main()
 	int y = COL/2;//std::rand() % COL;
 
 	initmatrix();
+	matrix[x][y] = 8;
 	std::cout << "algorithm 1" << std::setprecision(5) << TimeAlgorithm(fillcircle1, x, y, radius) << "[ms]" << std::endl;
 	//drawcircle(x, y, radius);
 	//std::cout << "algorithm 2" << std::setprecision(5) << TimeAlgorithm(fillcircle2, x, y, radius) << "[ms]" << std::endl;

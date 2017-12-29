@@ -7,7 +7,7 @@
 class Tile
 {
 public:
-	uint32_t x ,y;
+	uint32_t x, y;
 
 	//   * TODO * make all this thread safe  ///
 	Tile(uint32_t x, uint32_t y);
@@ -33,11 +33,12 @@ public:
 	~Tile();
 
 private:
-	int m_biomeCount;			// Number of biomes present ( does not include the defualt wasteland
+	int m_biomeCount;			// Number of biomes present ( does not include the defualt wasteland )
 	Nature::Biome* m_biomes;	// List of biomes present
 	Tile* m_orignalTile;		// used to reference the orignal tile for resources and such
 	bool f_finalized = false;
 	bool f_autoFinalize = false;
+	const int MAX_BIOME_MAG = 100;
 
 	inline int GetBiomeCount(Nature::BiomeType type);
 
@@ -72,6 +73,10 @@ private:
 		{
 			m_resourcesArray[type] = value;
 		}
+		void CalculateResources()
+		{
+
+		}
 
 	private:
 		typedef Nature::Resources::ResourceTypes ResType;
@@ -94,7 +99,7 @@ inline Tile::Tile(Tile & t)
 	f_autoFinalize = t.f_autoFinalize;
 	f_finalized = t.f_finalized;
 	m_orignalTile = t.m_orignalTile;
-	
+
 	int size = GetBiomeCount() * sizeof(Nature::Biome);
 	m_biomes = (Nature::Biome*)malloc(size);
 	memcpy(m_biomes, t.m_biomes, size);
@@ -113,8 +118,8 @@ void Tile::AddBiome(Nature::Biome biome)
 		Nature::Biome* temp = m_biomes;
 		m_biomes = new Nature::Biome[m_biomeCount];
 		size_t size = sizeof(Nature::Biome) * (m_biomeCount - 1);
-		memcpy(m_biomes, temp, size);
-		m_biomes[m_biomeCount - 1] = biome;
+		memcpy(m_biomes + 1, temp, size);
+		m_biomes[0] = biome;
 		delete temp;
 	}
 	if (f_autoFinalize)
@@ -133,7 +138,8 @@ bool Tile::RemoveBiome(Nature::BiomeType biomeType)
 			retValue = true;
 			size_t newSize = sizeof(Nature::Biome) * length - 1;
 			Nature::Biome* temp = m_biomes;
-			m_biomes = (Nature::Biome*)malloc(newSize);
+			//m_biomes = (Nature::Biome*)malloc(newSize);
+			m_biomes = new Nature::Biome[length - 1];
 			if (i > 0)
 			{// copy first half of array
 				size_t size = sizeof(Nature::Biome) * i;
@@ -151,6 +157,7 @@ bool Tile::RemoveBiome(Nature::BiomeType biomeType)
 				ClearBiome();
 			}
 			length--;
+			i--;
 			if (f_finalized)
 				break;
 		}
@@ -162,7 +169,7 @@ inline int Tile::GetBiomeCount()
 {
 	int biomeCount = m_biomeCount;
 	if (m_biomeCount == 0)
-		biomeCount += 1;
+		biomeCount = 1;
 	return biomeCount;
 
 }
@@ -193,7 +200,7 @@ inline int Tile::GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome)
 		biome.magnitude += m_biomes[i].magnitude;
 	}
 	// if there were multiple biomes. average there magnitudes, otherwise the magnitude is 0.
-	biome.magnitude = biomeCount ? biome.magnitude / biomeCounter : 0;
+	biome.magnitude = (float)biomeCount ? biome.magnitude / (float)biomeCounter : 0;
 
 	return biomeCount;
 }
@@ -218,6 +225,7 @@ inline void Tile::FinalizeBiomes()
 	if (f_finalized)
 		return;  // No reason to do it again.
 
+	//Combine Biomes
 	int length = GetBiomeCount();
 	Nature::Biome holdMyBiome;
 	for (int i = 0; i < length; i++)
@@ -228,7 +236,19 @@ inline void Tile::FinalizeBiomes()
 		GetBiome(holdMyBiome.type, holdMyBiome);
 		RemoveBiome(holdMyBiome.type);
 		AddBiome(holdMyBiome);
+		length = GetBiomeCount();
 	}
+
+	//Balance Biome Magnitutes
+	float totalMagnitude = 0;
+	for (int i = 0; i < length; i++)
+		totalMagnitude += m_biomes[i].magnitude;
+	if (totalMagnitude > MAX_BIOME_MAG)
+	{
+		for (int i = 0; i < length; i++)
+			m_biomes[i].magnitude = (m_biomes[i].magnitude/totalMagnitude)*(float)MAX_BIOME_MAG;
+	}
+
 	f_finalized = true;
 	f_autoFinalize = true;
 }

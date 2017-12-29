@@ -1,2 +1,13 @@
-﻿  WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.exe
+﻿  WildResourceSim.cpp
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\nature.h(58): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(22): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(82): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(161): warning C4018: '<': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(163): warning C4018: '<': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\wildresourcesim.cpp(25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\wildresourcesim.cpp(26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\wildresourcesim.cpp(27): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\wildresourcesim.cpp(28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\wildresourcesim.cpp(60): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.exe
   WildResourceSim.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WildResourceSim.pdb (Full PDB)
