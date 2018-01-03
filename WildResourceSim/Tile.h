@@ -73,9 +73,43 @@ private:
 		{
 			m_resourcesArray[type] = value;
 		}
-		void CalculateResources()
+		// This is not currently the final function
+		void CalculateResources(Nature::Biome biome)
 		{
+			int previousResources[ResType::NUMBER_OF_TYPES];
 
+			// Do I need this to persist betweem biomes and other
+			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
+				previousResources[i] = m_resourcesArray[i];;
+
+			typedef Nature::BiomeType BType;
+			switch (biome.type)
+			{
+			case BType::Forest:
+
+				break;
+			case BType::Quarry:
+
+				break;
+			case BType::Plains:
+
+				break;
+			case BType::Mountains:
+
+				break;
+			case BType::Desert:
+
+				break;
+			case BType::Volcanic:
+
+				break;
+			case BType::Water:
+
+				break;
+			case BType::Wasteland:
+			default:
+				break;
+			}
 		}
 
 	private:
