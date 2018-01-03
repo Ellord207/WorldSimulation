@@ -50,6 +50,7 @@ private:
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
 			{
 				m_resourcesArray[i] = 0;
+				m_previousResources[i] = 0;
 			}
 		}
 
@@ -76,20 +77,33 @@ private:
 		// This is not currently the final function
 		void CalculateResources(Nature::Biome biome)
 		{
-			int previousResources[ResType::NUMBER_OF_TYPES];
-
+			int tempResouce[ResType::NUMBER_OF_TYPES];
 			// Do I need this to persist betweem biomes and other
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
-				previousResources[i] = m_resourcesArray[i];;
-
+				tempResouce[i] = m_resourcesArray[i];
+			/*	
+			Equation to calculate the new magnitude of a biome
+			mag delta = a / (1 + b*EXP(-k* res Delta )) - offset
+				a	99
+				b	2.3
+				k	0.06
+				offset	30
+			*/
 			typedef Nature::BiomeType BType;
+			int i = biome.type;
 			switch (biome.type)
 			{
 			case BType::Forest:
 
 				break;
 			case BType::Quarry:
-
+				static int totalRock = 1000 * biome.magnitude/50.00;
+				m_resourcesArray[i] += biome.magnitude;
+				totalRock -= biome.magnitude;
+				if (m_previousResources[i] > m_resourcesArray[i])
+				{
+					m_previousResources
+				}
 				break;
 			case BType::Plains:
 
@@ -110,11 +124,14 @@ private:
 			default:
 				break;
 			}
+			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
+				m_previousResources[i] = tempResouce[i];
 		}
 
 	private:
 		typedef Nature::Resources::ResourceTypes ResType;
 		int m_resourcesArray[ResType::NUMBER_OF_TYPES];
+		int m_previousResources[ResType::NUMBER_OF_TYPES];
 	}m_resources;
 };
 
