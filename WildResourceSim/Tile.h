@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include <stdint.h>
 #include "Nature.h"
+#include <math.h>
+#include <algorithm>
 
 class Tile
 {
@@ -29,8 +31,12 @@ public:
 	inline Nature::Resources AvailableResources();				// returns a deep copy of the available resources 
 	inline int Tile::AvailableResources(Nature::Resources::ResourceTypes type);
 	inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amount); // takes an order for resources and will hand back the resources that could be filled by the order.  Will return ture if the order was filled.
+	inline void TickResources();								// Must be finialized to be able to tick resources
 
 	~Tile();
+
+protected:
+	inline void BalanceBiomes();
 
 private:
 	int m_biomeCount;			// Number of biomes present ( does not include the defualt wasteland )
@@ -77,49 +83,66 @@ private:
 		// This is not currently the final function
 		void CalculateResources(Nature::Biome biome)
 		{
+			// This will be the next previous resources
 			int tempResouce[ResType::NUMBER_OF_TYPES];
-			// Do I need this to persist betweem biomes and other
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
 				tempResouce[i] = m_resourcesArray[i];
-			/*	
-			Equation to calculate the new magnitude of a biome
-			mag delta = a / (1 + b*EXP(-k* res Delta )) - offset
-				a	99
-				b	2.3
-				k	0.06
-				offset	30
-			*/
+
 			typedef Nature::BiomeType BType;
-			int i = biome.type;
 			switch (biome.type)
 			{
 			case BType::Forest:
-
+			{
+				m_resourcesArray[ResType::Wood] += biome.magnitude;
+				m_resourcesArray[ResType::Wildlife] += biome.magnitude*0.2;
+				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Wood] - m_resourcesArray[ResType::Wood]);
 				break;
+			}
 			case BType::Quarry:
+			{
 				static int totalRock = 1000 * biome.magnitude/50.00;
-				m_resourcesArray[i] += biome.magnitude;
+				m_resourcesArray[ResType::Stone] += biome.magnitude;
 				totalRock -= biome.magnitude;
-				if (m_previousResources[i] > m_resourcesArray[i])
-				{
-					m_previousResources
-				}
+				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
 				break;
+			}
 			case BType::Plains:
-
+			{
+				m_resourcesArray[ResType::Cattle] += biome.magnitude*0.5;
+				m_resourcesArray[ResType::Crops] += biome.magnitude*0.5;
+				double avgCurr = (m_resourcesArray[ResType::Cattle] + m_resourcesArray[ResType::Crops]) / 2;
+				double avgPrev = (m_previousResources[ResType::Cattle] + m_previousResources[ResType::Crops]) / 2;
+				biome.magnitude += CalculateMagDelta(avgPrev - avgCurr);
 				break;
+			}
 			case BType::Mountains:
-
+			{
+				static int MountGrowth = biome.magnitude;
+				biome.magnitude += MountGrowth * 0.4;
+				m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
 				break;
+			}
 			case BType::Desert:
-
+			{
+				static int DesertGrowth = biome.magnitude;
+				biome.magnitude += DesertGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
 				break;
+			}
 			case BType::Volcanic:
-
+			{
+				static int VolcanGrowth = biome.magnitude;
+				biome.magnitude += VolcanGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
 				break;
+			}
 			case BType::Water:
-
+			{
+				m_resourcesArray[ResType::Water] += biome.magnitude;
+				m_resourcesArray[ResType::Wildlife] += biome.magnitude*0.2;
+				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Water] - m_resourcesArray[ResType::Water]);
 				break;
+			}
 			case BType::Wasteland:
 			default:
 				break;
@@ -129,6 +152,22 @@ private:
 		}
 
 	private:
+		int CalculateMagDelta(int resDelta)
+		{
+			// ------------------------------------------------ //
+			//	Equation to calculate the new magnitude of a biome
+			//	There is an Excel sheet that has the equation and a graph in it.  I may or may not commit it to the GitHub...  Who knows
+			//	
+			//	Logisitics Growth Model
+			//	mag delta = a / (1 + b*EXP(-k* res Delta )) - offset
+			//	a	99
+			//	b	2.3
+			//	k	0.06
+			//	offset	-30
+			// ------------------------------------------------ //
+			double a = 99, b = 2.3, k= 0.06, offset = -30;
+			return (a / (1 + b*std::exp(-k * resDelta))) + offset;
+		}
 		typedef Nature::Resources::ResourceTypes ResType;
 		int m_resourcesArray[ResType::NUMBER_OF_TYPES];
 		int m_previousResources[ResType::NUMBER_OF_TYPES];
@@ -271,6 +310,20 @@ inline int Tile::GetBiomeCount(Nature::BiomeType biomeType)
 	return GetBiome(biomeType, b);
 }
 
+inline void Tile::BalanceBiomes()
+{
+	int length = GetBiomeCount();
+
+	float totalMagnitude = 0;
+	for (int i = 0; i < length; i++)
+		totalMagnitude += m_biomes[i].magnitude;
+	if (totalMagnitude > MAX_BIOME_MAG)
+	{
+		for (int i = 0; i < length; i++)
+			m_biomes[i].magnitude = (m_biomes[i].magnitude / totalMagnitude)*(float)MAX_BIOME_MAG;
+	}
+}
+
 inline void Tile::FinalizeBiomes()
 {
 	if (f_finalized)
@@ -290,15 +343,7 @@ inline void Tile::FinalizeBiomes()
 		length = GetBiomeCount();
 	}
 
-	//Balance Biome Magnitutes
-	float totalMagnitude = 0;
-	for (int i = 0; i < length; i++)
-		totalMagnitude += m_biomes[i].magnitude;
-	if (totalMagnitude > MAX_BIOME_MAG)
-	{
-		for (int i = 0; i < length; i++)
-			m_biomes[i].magnitude = (m_biomes[i].magnitude/totalMagnitude)*(float)MAX_BIOME_MAG;
-	}
+	BalanceBiomes();
 
 	f_finalized = true;
 	f_autoFinalize = true;
@@ -336,6 +381,18 @@ inline int Tile::RequestResources(Nature::Resources::ResourceTypes type, int amo
 	m_orignalTile->m_resources.SetResource(type, resourceRemaining);
 
 	return amount;
+}
+
+inline void Tile::TickResources()
+{
+	if (!IsFinalized())
+		throw;
+
+	int length = GetBiomeCount();
+	for (size_t i = 0; i < length; i++)
+		m_resources.CalculateResources(m_biomes[i]);
+	
+	BalanceBiomes();
 }
 
 inline Tile::~Tile()

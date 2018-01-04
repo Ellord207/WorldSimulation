@@ -44,6 +44,7 @@ namespace World
 		inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::Biome b);
 		inline void SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::BiomeType bType, int bMagnitude);
 		inline void FinalizeWorld();
+		void Tick();
 
 		BaseWorld(uint32_t width, uint32_t hight);
 		~BaseWorld();
@@ -97,7 +98,15 @@ namespace World
 
 	inline void BaseWorld::FinalizeWorld()
 	{
+		// One way to interate through a vector.  For Each Funciton
 		std::for_each(m_tileGrid.begin(), m_tileGrid.end(), [](Tile* x) {x->FinalizeBiomes(); });
+	}
+
+	inline void BaseWorld::Tick()
+	{
+		// One way to interate through a vector.  More like C# for(var i in collecion)
+		for (auto const& it: m_tileGrid)
+			it->TickResources();
 	}
 
 	BaseWorld::BaseWorld(uint32_t width, uint32_t hight)
