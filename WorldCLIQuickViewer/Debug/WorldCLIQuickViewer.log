@@ -1,0 +1,21 @@
+﻿  QuickViewer.cpp
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Nature.h(58): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(96): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(97): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(111): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(112): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(115): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(141): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(142): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\Tile.h(169): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\../WildResourceSim/BaseWorld.h(22): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\../WildResourceSim/BaseWorld.h(90): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\../WildResourceSim/BaseWorld.h(189): warning C4018: '>=': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\../WildResourceSim/BaseWorld.h(192): warning C4018: '>=': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\QuickViewer.h(29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\QuickViewer.h(30): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\QuickViewer.h(31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\worldcliquickviewer\QuickViewer.h(32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  QuickViewer.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
+  WorldCLIQuickViewer.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WorldCLIQuickViewer.exe
+  WorldCLIQuickViewer.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\WorldCLIQuickViewer.pdb (Partial PDB)

@@ -1,9 +1,0 @@
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\bin\Debug\WorldCLIQuickViewer.exe.config
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\bin\Debug\WorldCLIQuickViewer.exe
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\bin\Debug\WorldCLIQuickViewer.pdb
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.csprojResolveAssemblyReference.cache
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.Properties.Resources.resources
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.TileGridForm.resources
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.csproj.GenerateResource.Cache
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.exe
-C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\WorldCLIQuickViewer\obj\Debug\WorldCLIQuickViewer.pdb

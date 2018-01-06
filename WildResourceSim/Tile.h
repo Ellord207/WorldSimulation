@@ -40,7 +40,7 @@ protected:
 
 private:
 	int m_biomeCount;			// Number of biomes present ( does not include the defualt wasteland )
-	Nature::Biome* m_biomes;	// List of biomes present
+	Nature::Biome* m_biomes = NULL;	// List of biomes present
 	Tile* m_orignalTile;		// used to reference the orignal tile for resources and such
 	bool f_finalized = false;
 	bool f_autoFinalize = false;
@@ -87,7 +87,7 @@ private:
 			int tempResouce[ResType::NUMBER_OF_TYPES];
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
 				tempResouce[i] = m_resourcesArray[i];
-
+			
 			typedef Nature::BiomeType BType;
 			switch (biome.type)
 			{
@@ -100,11 +100,11 @@ private:
 			}
 			case BType::Quarry:
 			{
-				static int totalRock = 1000 * biome.magnitude/50.00;
-				m_resourcesArray[ResType::Stone] += biome.magnitude;
-				totalRock -= biome.magnitude;
-				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
-				break;
+				//static int totalRock = 1000 * biome.magnitude/50.00;
+				//m_resourcesArray[ResType::Stone] += biome.magnitude;
+				//totalRock -= biome.magnitude;
+				//biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
+				//break;
 			}
 			case BType::Plains:
 			{
@@ -117,24 +117,24 @@ private:
 			}
 			case BType::Mountains:
 			{
-				static int MountGrowth = biome.magnitude;
-				biome.magnitude += MountGrowth * 0.4;
-				m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
-				break;
+				//static int MountGrowth = biome.magnitude;
+				//biome.magnitude += MountGrowth * 0.4;
+				//m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
+				//break;
 			}
 			case BType::Desert:
 			{
-				static int DesertGrowth = biome.magnitude;
-				biome.magnitude += DesertGrowth;
-				m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
-				break;
+				//static int DesertGrowth = biome.magnitude;
+				//biome.magnitude += DesertGrowth;
+				//m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
+				//break;
 			}
 			case BType::Volcanic:
 			{
-				static int VolcanGrowth = biome.magnitude;
-				biome.magnitude += VolcanGrowth;
-				m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
-				break;
+				//static int VolcanGrowth = biome.magnitude;
+				//biome.magnitude += VolcanGrowth;
+				//m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
+				//break;
 			}
 			case BType::Water:
 			{
@@ -189,10 +189,13 @@ inline Tile::Tile(Tile & t)
 	f_autoFinalize = t.f_autoFinalize;
 	f_finalized = t.f_finalized;
 	m_orignalTile = t.m_orignalTile;
+	x = t.x;
+	y = t.y;
 
 	int size = GetBiomeCount() * sizeof(Nature::Biome);
 	m_biomes = (Nature::Biome*)malloc(size);
-	memcpy(m_biomes, t.m_biomes, size);
+	for (int i = 0; i < GetBiomeCount(); i++)
+		m_biomes[i] = t.m_biomes[i];
 }
 
 void Tile::AddBiome(Nature::Biome biome)
@@ -298,7 +301,8 @@ inline int Tile::GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome)
 inline void Tile::ClearBiome()
 {
 	m_biomeCount = 0;
-	delete m_biomes;
+	if (m_biomes != NULL)
+		delete m_biomes;
 	m_biomes = new Nature::Biome[1];
 	f_finalized = true;
 	f_autoFinalize = false;
@@ -389,7 +393,7 @@ inline void Tile::TickResources()
 		throw;
 
 	int length = GetBiomeCount();
-	for (size_t i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 		m_resources.CalculateResources(m_biomes[i]);
 	
 	BalanceBiomes();

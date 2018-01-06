@@ -29,11 +29,13 @@ namespace World
 		{
 			int distancex = (t1.x - x) * (t1.x - x);
 			int distancey = (t1.y - y) * (t1.y - y);
-			return (int)sqrt(distancex - distancey);
+			int difference = distancex + distancey;
+			double distance = std::round(sqrt(difference));
+			return (int)distance;
 		}
-		static inline bool cmp(TileReference left, TileReference right)
+		bool operator<(const TileReference& right) const
 		{
-			return left.distance > right.distance;
+			return this->distance > right.distance;
 		}
 	};
 
@@ -50,17 +52,22 @@ namespace World
 		~BaseWorld();
 
 		// TileRefences in the Cache can use to get the actual Tiles from the world object  ------  Reference: http://en.cppreference.com/w/cpp/container/priority_queue
-		typedef std::priority_queue<TileReference, std::vector<TileReference>, decltype(&TileReference::cmp)> TileCache;
-		TileCache BuildCache(Tile tile, unsigned int radius);
-		Tile GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
-
+		typedef std::priority_queue<TileReference>TileCache;
+		TileCache* BuildCache(Tile tile, unsigned int radius);
+		TileCache* BuildCache(uint32_t x, uint32_t y, unsigned int radius);
+		Tile* GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
+		
 	private:
-		//typedef std::iterator<Tile*>
-		std::vector<Tile*> m_tileGrid;
+		struct CacheArg
+		{
+			int Orgin_x, Orgin_y;
+			TileCache* Cache;
+		};
+		
 		uint32_t m_width;
 		uint32_t m_hight;
 		inline Tile* GetGridTilePtr(uint32_t x, uint32_t y);				// returns a Pointer to the Tile at a localtion
-
+		std::vector<Tile*> m_tileGrid;
 																			// === Operations on Spheres === //
 		void OperateOnSphere
 		(
@@ -72,15 +79,15 @@ namespace World
 		static inline void OperationCacheTile(Tile* tile, void* args);
 
 	public: // protected:  // Change this and use a TileCache for the test.
-		inline Tile GetGridTile(uint32_t x, uint32_t y);				// returns a copy of the Tile at a localtion
+		inline Tile* GetGridTile(uint32_t x, uint32_t y);				// returns a copy of the Tile at a localtion
 	};
 
 	// =========== Puplic =========== //
 	inline bool BaseWorld::IsBiome(uint32_t x, uint32_t y, Nature::BiomeType t_biome)
 	{
-		Tile t = GetGridTile(x, y);
+		Tile* t = GetGridTile(x, y);
 		Nature::Biome b;
-		return (bool)t.GetBiome(t_biome, b);
+		return (bool)t->GetBiome(t_biome, b);
 	}
 
 	inline void BaseWorld::SetBiome(uint32_t x, uint32_t y, unsigned int r, Nature::Biome b)
@@ -105,8 +112,9 @@ namespace World
 	inline void BaseWorld::Tick()
 	{
 		// One way to interate through a vector.  More like C# for(var i in collecion)
-		for (auto const& it: m_tileGrid)
-			it->TickResources();
+		//for (auto const& it: m_tileGrid)
+		//	it->TickResources();
+		std::for_each(m_tileGrid.begin(), m_tileGrid.end(), [](Tile* x) {x->TickResources(); });
 	}
 
 	BaseWorld::BaseWorld(uint32_t width, uint32_t hight)
@@ -128,25 +136,30 @@ namespace World
 		m_tileGrid.clear();
 	}
 
-	inline BaseWorld::TileCache BaseWorld::BuildCache(Tile tile, unsigned int radius)
+	inline BaseWorld::TileCache* BaseWorld::BuildCache(uint32_t x, uint32_t y, unsigned int radius)
 	{
-		TileCache cache = TileCache();
-		void* data[3];
-		data[0] = &cache;
-		data[1] = &tile.x;
-		data[2] = &tile.y;
-		void* args = data;
-		OperateOnSphere(tile.x, tile.y, radius, OperationCacheTile, args);
-		return TileCache();
+		TileCache* cache = new TileCache();
+		CacheArg* cacheArgs = new CacheArg();
+		cacheArgs->Cache = cache;
+		cacheArgs->Orgin_x = x;
+		cacheArgs->Orgin_y = y;
+		void* args = (void*)cacheArgs;
+		OperateOnSphere(x, y, radius, OperationCacheTile, args);
+		return cache;
 	}
 
-	inline Tile BaseWorld::GetGridTile(TileReference tileRef)
+	inline BaseWorld::TileCache* BaseWorld::BuildCache(Tile tile, unsigned int radius)
+	{
+		return BuildCache(tile.x, tile.y, radius);
+	}
+
+	inline Tile* BaseWorld::GetGridTile(TileReference tileRef)
 	{
 		return GetGridTile(tileRef.x, tileRef.y);
 	}
 
 	// =========== Private =========== //
-	inline Tile * BaseWorld::GetGridTilePtr(uint32_t x, uint32_t y)
+	inline Tile* BaseWorld::GetGridTilePtr(uint32_t x, uint32_t y)
 	{
 		int length = m_width* m_hight;
 		int index = x * m_width + y;
@@ -167,10 +180,16 @@ namespace World
 	{
 		int r = radius;
 		Tile* tilePtr = NULL;
-		for (int x1 = x0 - r + 1; x1 < x0 + r; x1++)
+		int leftBound = x0 - r + 1;
+		int rightBound = x0 + r;
+		int botBound = y0 - r + 1;
+		int topBound = y0 + r;
+		for (int x1 = leftBound; x1 < rightBound; x1++)
 		{
-			for (int y1 = y0 - r + 1; y1 < y0 + r; y1++)
+			if (x1 < 0 || x1 >= m_width) continue;
+			for (int y1 = botBound; y1 < topBound; y1++)
 			{
+				if (y1 < 0 || y1 >= m_hight) continue;
 				int dx = x0 - x1; // horizontal offset
 				int dy = y0 - y1; // vertical offset
 				if ((dx*dx + dy*dy) <= (r*r))
@@ -183,27 +202,28 @@ namespace World
 		}
 	}
 
-	inline void BaseWorld::OperationAddBiome(Tile * tile, void* args)
+	inline void BaseWorld::OperationAddBiome(Tile* tile, void* args)
 	{
 		Nature::Biome* b = (Nature::Biome*)args;
 		tile->AddBiome(*b);
 	}
 
-	inline void BaseWorld::OperationCacheTile(Tile * tile, void * args)
+	inline void BaseWorld::OperationCacheTile(Tile* tile, void * args)
 	{
-		void** data = &args;
-		BaseWorld::TileCache* cache = (BaseWorld::TileCache*)data[0];
-		uint32_t x = *(int*)data[1];
-		uint32_t y = *(int*)data[2];
-		TileReference* rTile = new TileReference(*tile, x, y);
-		cache->push(*rTile);
+		CacheArg* cacheArgs_ = (CacheArg*)args;
+		BaseWorld::TileCache* cache = cacheArgs_->Cache;
+		uint32_t x = cacheArgs_->Orgin_x;
+		uint32_t y = cacheArgs_->Orgin_y;
+		TileReference rTile = TileReference(*tile, x, y);
+		cache->push(rTile);
 	}
 
 	// =========== Protected =========== //
-	inline Tile BaseWorld::GetGridTile(uint32_t x, uint32_t y)
+	inline Tile* BaseWorld::GetGridTile(uint32_t x, uint32_t y)
 	{
 		Tile* TilePtr = GetGridTilePtr(x, y);
-		return *(new Tile(*TilePtr));
+		//TilePtr = new Tile(*TilePtr);
+		return TilePtr;
 	}
 
 }
