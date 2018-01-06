@@ -83,6 +83,12 @@ private:
 		// This is not currently the final function
 		void CalculateResources(Nature::Biome biome)
 		{
+			static int totalRock	= -1;
+			static int MountGrowth	= -1;
+			static int DesertGrowth = -1;
+			static int VolcanGrowth = -1;
+
+
 			// This will be the next previous resources
 			int tempResouce[ResType::NUMBER_OF_TYPES];
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
@@ -100,11 +106,12 @@ private:
 			}
 			case BType::Quarry:
 			{
-				//static int totalRock = 1000 * biome.magnitude/50.00;
-				//m_resourcesArray[ResType::Stone] += biome.magnitude;
-				//totalRock -= biome.magnitude;
-				//biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
-				//break;
+				if (totalRock == -1)
+					totalRock = 1000 * biome.magnitude/50.00;
+				m_resourcesArray[ResType::Stone] += biome.magnitude;
+				totalRock -= biome.magnitude;
+				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
+				break;
 			}
 			case BType::Plains:
 			{
@@ -117,24 +124,27 @@ private:
 			}
 			case BType::Mountains:
 			{
-				//static int MountGrowth = biome.magnitude;
-				//biome.magnitude += MountGrowth * 0.4;
-				//m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
-				//break;
+				if (MountGrowth == -1);
+					MountGrowth = biome.magnitude;
+				biome.magnitude += MountGrowth * 0.4;
+				m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
+				break;
 			}
 			case BType::Desert:
 			{
-				//static int DesertGrowth = biome.magnitude;
-				//biome.magnitude += DesertGrowth;
-				//m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
-				//break;
+				if (DesertGrowth == -1);
+					DesertGrowth = biome.magnitude;
+				biome.magnitude += DesertGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
+				break;
 			}
 			case BType::Volcanic:
 			{
-				//static int VolcanGrowth = biome.magnitude;
-				//biome.magnitude += VolcanGrowth;
-				//m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
-				//break;
+				if (VolcanGrowth == -1);
+					VolcanGrowth = biome.magnitude;
+				biome.magnitude += VolcanGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
+				break;
 			}
 			case BType::Water:
 			{

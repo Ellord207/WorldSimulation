@@ -112,9 +112,9 @@ namespace World
 	inline void BaseWorld::Tick()
 	{
 		// One way to interate through a vector.  More like C# for(var i in collecion)
-		//for (auto const& it: m_tileGrid)
-		//	it->TickResources();
-		std::for_each(m_tileGrid.begin(), m_tileGrid.end(), [](Tile* x) {x->TickResources(); });
+		for (auto const& it: m_tileGrid)
+			it->TickResources();
+		//std::for_each(m_tileGrid.begin(), m_tileGrid.end(), [](Tile* x) {x->TickResources(); });
 	}
 
 	BaseWorld::BaseWorld(uint32_t width, uint32_t hight)

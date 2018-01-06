@@ -87,7 +87,7 @@ namespace WorldCLIQuickViewer {
 				cache->pop();	
 			}
 			world->Tick();
-			label1->Text = (p++).ToString();
+			label_iterations->Text = (++p).ToString();
 		}
 
 		/// <summary>
@@ -112,6 +112,9 @@ namespace WorldCLIQuickViewer {
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::Label^  label_resources;
 	private: System::Windows::Forms::Button^  butt_tickSingle;
+	private: System::Windows::Forms::Button^  butt_tickTen;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::Label^  label_iterations;
 
 
 
@@ -137,6 +140,9 @@ namespace WorldCLIQuickViewer {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label_resources = (gcnew System::Windows::Forms::Label());
 			this->butt_tickSingle = (gcnew System::Windows::Forms::Button());
+			this->butt_tickTen = (gcnew System::Windows::Forms::Button());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label_iterations = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// label_y
@@ -229,11 +235,42 @@ namespace WorldCLIQuickViewer {
 			this->butt_tickSingle->UseVisualStyleBackColor = true;
 			this->butt_tickSingle->Click += gcnew System::EventHandler(this, &QuickViewer::butt_tickSingle_Click);
 			// 
+			// butt_tickTen
+			// 
+			this->butt_tickTen->Location = System::Drawing::Point(13, 405);
+			this->butt_tickTen->Name = L"butt_tickTen";
+			this->butt_tickTen->Size = System::Drawing::Size(75, 23);
+			this->butt_tickTen->TabIndex = 17;
+			this->butt_tickTen->Text = L"Ten Ticks";
+			this->butt_tickTen->UseVisualStyleBackColor = true;
+			this->butt_tickTen->Click += gcnew System::EventHandler(this, &QuickViewer::butt_tickTen_Click);
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Location = System::Drawing::Point(10, 389);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(53, 13);
+			this->label5->TabIndex = 18;
+			this->label5->Text = L"Iterations:";
+			// 
+			// label_iterations
+			// 
+			this->label_iterations->AutoSize = true;
+			this->label_iterations->Location = System::Drawing::Point(70, 389);
+			this->label_iterations->Name = L"label_iterations";
+			this->label_iterations->Size = System::Drawing::Size(13, 13);
+			this->label_iterations->TabIndex = 19;
+			this->label_iterations->Text = L"0";
+			// 
 			// QuickViewer
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(512, 469);
+			this->Controls->Add(this->label_iterations);
+			this->Controls->Add(this->label5);
+			this->Controls->Add(this->butt_tickTen);
 			this->Controls->Add(this->butt_tickSingle);
 			this->Controls->Add(this->label_resources);
 			this->Controls->Add(this->label4);
@@ -259,6 +296,11 @@ namespace WorldCLIQuickViewer {
 	private: System::Void butt_tickSingle_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		TickWorld();
+	}
+	private: System::Void butt_tickTen_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		for (int i = 0; i < 10; i++)
+			TickWorld();
 	}
 };
 }
