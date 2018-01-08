@@ -30,9 +30,9 @@ namespace Model
 	public:
 		static array<Color>^ PalletColor = 
         { 
-            Color::Gray,
+            Color::DarkGray,
             Color::DarkGreen, 
-            Color::DarkGray, 
+            Color::Goldenrod, 
             Color::LightGreen, 
             Color::Navy,
             Color::Orange,

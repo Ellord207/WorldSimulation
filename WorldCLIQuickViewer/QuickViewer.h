@@ -24,12 +24,13 @@ namespace WorldCLIQuickViewer {
 	public:
 		QuickViewer(void)
 		{
-			float forst1Mag = 40, forst2Mag = 30, water1Mag = 50, plains1Mag = 40, quarry1Mag = 60, mount1Mag = 20;
+			float forst1Mag = 40, forst2Mag = 30, water1Mag = 50, plains1Mag = 40, plains2Mag = 10, quarry1Mag = 60, mount1Mag = 20;
 			world = new World::BaseWorld(w, h);
 			world->SetBiome(5, 5, 3, Nature::Forest, forst1Mag);
 			world->SetBiome(4, 4, 3, Nature::Water, water1Mag);
 			world->SetBiome(3, 7, 2, Nature::Forest, forst2Mag);
 			world->SetBiome(4, 6, 1, Nature::Plains, plains1Mag);
+			world->SetBiome(9, 3, 4, Nature::Plains, plains2Mag);
             world->SetBiome(10, 10, 4, Nature::Quarry, quarry1Mag);
             world->SetBiome(12, 12, 6, Nature::Mountains, mount1Mag);
 			world->FinalizeWorld();
