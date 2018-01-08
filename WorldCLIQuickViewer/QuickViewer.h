@@ -24,12 +24,14 @@ namespace WorldCLIQuickViewer {
 	public:
 		QuickViewer(void)
 		{
-			float forst1Mag = 40, forst2Mag = 30, water1Mag = 50, plains1Mag = 40;
+			float forst1Mag = 40, forst2Mag = 30, water1Mag = 50, plains1Mag = 40, quarry1Mag = 60, mount1Mag = 20;
 			world = new World::BaseWorld(w, h);
-			world->SetBiome(5, 5, 2, Nature::Forest, forst1Mag);
+			world->SetBiome(5, 5, 3, Nature::Forest, forst1Mag);
 			world->SetBiome(4, 4, 3, Nature::Water, water1Mag);
 			world->SetBiome(3, 7, 2, Nature::Forest, forst2Mag);
 			world->SetBiome(4, 6, 1, Nature::Plains, plains1Mag);
+            world->SetBiome(10, 10, 4, Nature::Quarry, quarry1Mag);
+            world->SetBiome(12, 12, 6, Nature::Mountains, mount1Mag);
 			world->FinalizeWorld();
 
 			InitializeComponent();
@@ -60,7 +62,7 @@ namespace WorldCLIQuickViewer {
 			int bCount;
 			tile->GetAllBiomes(biomes, bCount);
 			for (int i = 0; i < bCount; i++)
-				label_biomes->Text += ((int)biomes[i].type).ToString() + ": " + biomes[i].magnitude.ToString() + "\n";
+				label_biomes->Text += ((int)biomes[i].type).ToString() + ": " + RoundForDisplay(biomes[i].magnitude).ToString() + "\n";
 
 			Nature::Resources res = tile->AvailableResources();
 			label_resources->Text = "";
@@ -74,11 +76,26 @@ namespace WorldCLIQuickViewer {
 
 		}
 
+        double RoundForDisplay(double value)
+        {
+            return round(value * 1000.0) / 1000.0;
+        }
+
 		void TickWorld()
 		{
 			static int p = 0;
+            world->Tick();
+            label_iterations->Text = (++p).ToString();
 
-			bool b = world->IsBiome(3, 7, Nature::BiomeType::Wasteland);
+            for (int i = 0; i < this->Controls->Count; i++)
+            {
+                Model::TileBox^ tBox = dynamic_cast<Model::TileBox^>(this->Controls[i]);
+                if (tBox)
+                    tBox->CalcuateColor();
+            }
+			
+            /*
+            bool b = world->IsBiome(3, 7, Nature::BiomeType::Wasteland);
 			World::BaseWorld::TileCache* cache = world->BuildCache(h/2, w/2, std::max(h,w));
 			int size = cache->size();
 			while (!cache->empty())
@@ -86,8 +103,7 @@ namespace WorldCLIQuickViewer {
 				World::TileReference t = cache->top();
 				cache->pop();	
 			}
-			world->Tick();
-			label_iterations->Text = (++p).ToString();
+            //*/
 		}
 
 		/// <summary>

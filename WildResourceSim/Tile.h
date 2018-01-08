@@ -81,19 +81,16 @@ private:
 			m_resourcesArray[type] = value;
 		}
 		// This is not currently the final function
-		void CalculateResources(Nature::Biome biome)
+		void CalculateResources(Nature::Biome& biome)
 		{
-			static int totalRock	= -1;
-			static int MountGrowth	= -1;
-			static int DesertGrowth = -1;
-			static int VolcanGrowth = -1;
-
-
 			// This will be the next previous resources
 			int tempResouce[ResType::NUMBER_OF_TYPES];
 			for (int i = 0; i < ResType::NUMBER_OF_TYPES; i++)
 				tempResouce[i] = m_resourcesArray[i];
-			
+
+            if (biome.magnitude < 1)
+                biome.magnitude = 5;
+
 			typedef Nature::BiomeType BType;
 			switch (biome.type)
 			{
@@ -101,16 +98,16 @@ private:
 			{
 				m_resourcesArray[ResType::Wood] += biome.magnitude;
 				m_resourcesArray[ResType::Wildlife] += biome.magnitude*0.2;
-				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Wood] - m_resourcesArray[ResType::Wood]);
+				biome.magnitude += CalculateMagDelta(m_resourcesArray[ResType::Wood] - m_previousResources[ResType::Wood]);
 				break;
 			}
 			case BType::Quarry:
 			{
-				if (totalRock == -1)
-					totalRock = 1000 * biome.magnitude/50.00;
+				if (m_totalRock == -1)
+                    m_totalRock = 1000 * biome.magnitude/50.00;
 				m_resourcesArray[ResType::Stone] += biome.magnitude;
-				totalRock -= biome.magnitude;
-				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Stone] - m_resourcesArray[ResType::Stone]);
+                m_totalRock -= biome.magnitude;
+				biome.magnitude += CalculateMagDelta(m_resourcesArray[ResType::Stone] - m_previousResources[ResType::Stone]);
 				break;
 			}
 			case BType::Plains:
@@ -119,38 +116,38 @@ private:
 				m_resourcesArray[ResType::Crops] += biome.magnitude*0.5;
 				double avgCurr = (m_resourcesArray[ResType::Cattle] + m_resourcesArray[ResType::Crops]) / 2;
 				double avgPrev = (m_previousResources[ResType::Cattle] + m_previousResources[ResType::Crops]) / 2;
-				biome.magnitude += CalculateMagDelta(avgPrev - avgCurr);
+				biome.magnitude += CalculateMagDelta(avgCurr - avgPrev);
 				break;
 			}
 			case BType::Mountains:
 			{
-				if (MountGrowth == -1);
-					MountGrowth = biome.magnitude;
-				biome.magnitude += MountGrowth * 0.4;
-				m_resourcesArray[ResType::Terrain] = std::max(MountGrowth, m_resourcesArray[ResType::Terrain]);
+				if (m_mountGrowth == -1)
+                    m_mountGrowth = biome.magnitude;
+				biome.magnitude += m_mountGrowth * 0.4;
+				m_resourcesArray[ResType::Terrain] = std::max(m_mountGrowth, m_resourcesArray[ResType::Terrain]);
 				break;
 			}
 			case BType::Desert:
 			{
-				if (DesertGrowth == -1);
-					DesertGrowth = biome.magnitude;
-				biome.magnitude += DesertGrowth;
-				m_resourcesArray[ResType::Terrain] = std::max(DesertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
+				if (m_desertGrowth == -1)
+                    m_desertGrowth = biome.magnitude;
+				biome.magnitude += m_desertGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(m_desertGrowth*0.2, (double)m_resourcesArray[ResType::Terrain]);
 				break;
 			}
 			case BType::Volcanic:
 			{
-				if (VolcanGrowth == -1);
-					VolcanGrowth = biome.magnitude;
-				biome.magnitude += VolcanGrowth;
-				m_resourcesArray[ResType::Terrain] = std::max(VolcanGrowth, m_resourcesArray[ResType::Terrain]);
+				if (m_volcanGrowth == -1)
+                    m_volcanGrowth = biome.magnitude;
+				biome.magnitude += m_volcanGrowth;
+				m_resourcesArray[ResType::Terrain] = std::max(m_volcanGrowth, m_resourcesArray[ResType::Terrain]);
 				break;
 			}
 			case BType::Water:
 			{
 				m_resourcesArray[ResType::Water] += biome.magnitude;
 				m_resourcesArray[ResType::Wildlife] += biome.magnitude*0.2;
-				biome.magnitude += CalculateMagDelta(m_previousResources[ResType::Water] - m_resourcesArray[ResType::Water]);
+                biome.magnitude += CalculateMagDelta(m_resourcesArray[ResType::Water] - m_previousResources[ResType::Water]);;
 				break;
 			}
 			case BType::Wasteland:
@@ -162,7 +159,7 @@ private:
 		}
 
 	private:
-		int CalculateMagDelta(int resDelta)
+		double CalculateMagDelta(int resDelta)
 		{
 			// ------------------------------------------------ //
 			//	Equation to calculate the new magnitude of a biome
@@ -176,11 +173,22 @@ private:
 			//	offset	-30
 			// ------------------------------------------------ //
 			double a = 99, b = 2.3, k= 0.06, offset = -30;
-			return (a / (1 + b*std::exp(-k * resDelta))) + offset;
+            double value = std::exp(-k * resDelta);
+            value *= b;
+            value += 1;
+            value = a / value;
+            value += offset;
+            return value;
+            //return (a / (1 + b*std::exp(-k * resDelta))) + offset;
 		}
 		typedef Nature::Resources::ResourceTypes ResType;
 		int m_resourcesArray[ResType::NUMBER_OF_TYPES];
 		int m_previousResources[ResType::NUMBER_OF_TYPES];
+
+        int m_totalRock = -1;
+        int m_mountGrowth = -1;
+        int m_desertGrowth = -1;
+        int m_volcanGrowth = -1;
 	}m_resources;
 };
 

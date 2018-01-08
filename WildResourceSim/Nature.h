@@ -6,14 +6,14 @@ namespace Nature
 
 	enum BiomeType
 	{
-		Wasteland,
-		Forest,
-		Quarry,
-		Plains,
-		Mountains,
-		Desert,
-		Volcanic,
-		Water,
+		Wasteland,  //0
+		Forest,     //1
+		Quarry,     //2
+		Plains,     //3
+		Mountains,  //4
+		Desert,     //5
+		Volcanic,   //6
+		Water,      //7
 	};
 
 	struct Resources
@@ -58,7 +58,7 @@ namespace Nature
 		{}
 
 		BiomeType type;
-		float  magnitude;
+		double magnitude;
 	};
 
 }
