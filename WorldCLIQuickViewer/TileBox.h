@@ -43,16 +43,7 @@ namespace Model
 		TileBox(Tile& t, int size, EventHandler^ mouseOverDel) : PictureBox()
 		{
             tile = &t;
-
-			//Nature::Biome* b = NULL;
-			//int bCount = 0;
-			//tile->GetAllBiomes(b, bCount);
-			//if (b[0].type == Nature::Wasteland)
-			//	bCount = 0;
-			//BackColor = PalletColor[bCount];
-
             CalcuateColor();
-
 			Width = size;
 			Height = size;
 			this->MouseEnter += mouseOverDel;
@@ -71,7 +62,6 @@ namespace Model
             int b = (int)((color.B * amount) + backColor.B * (1 - amount));
             return Drawing::Color::FromArgb(r, g, b);
         }
-
         void CalcuateColor()
         {
             

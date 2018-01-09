@@ -287,9 +287,10 @@ inline int Tile::GetBiomeCount()
 
 inline void Tile::GetAllBiomes(Nature::Biome *& biomes, int & biomeCount)
 {
-	size_t size = sizeof(Nature::Biome) * GetBiomeCount();
-	biomes = (Nature::Biome*)malloc(size);
-	memcpy(biomes, m_biomes, size);
+	//size_t size = sizeof(Nature::Biome) * GetBiomeCount();
+	//biomes = (Nature::Biome*)malloc(size);
+	//memcpy(biomes, m_biomes, size);
+    biomes = m_biomes;
 	biomeCount = GetBiomeCount();
 }
 

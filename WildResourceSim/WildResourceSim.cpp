@@ -76,6 +76,8 @@ int main()
 	world.Tick();
 	world.BuildCache(3, 6, 3);
 
+    World::BaseWorld MassiveTest = World::BaseWorld(500, 500);
+
     return 0;
 }
 
