@@ -13,10 +13,10 @@ namespace WorldCLIQuickViewer {
     using namespace System::Drawing;
 
     const int size = 20;
-    const int bourder = 5;
-    const int offset = 100;
-    const int w = 100;
-    const int h = 100;
+    const int bourder = 3;
+    const int bufferRadius = 25;
+    const int w = 500;
+    const int h = 500;
     /// <summary>
     /// Summary for QuickViewer
     /// </summary>
@@ -61,7 +61,7 @@ namespace WorldCLIQuickViewer {
             tileGroup->MouseDown += EH_tBox_mouseDown;
             tileGroup->MouseUp += EH_tBox_mouseUp;
 
-            World::BaseWorld::TileCache* cache = world->BuildCache(10, 10, 20);
+            World::BaseWorld::TileCache* cache = world->BuildCache(10, 10, bufferRadius);
             while (!cache->empty())
             {
                 World::TileReference t = cache->top();
@@ -411,7 +411,7 @@ namespace WorldCLIQuickViewer {
             tileGroup->Visible = false;
             tileGroup->Controls->Clear();
 
-            World::BaseWorld::TileCache* cache = world->BuildCache(displayedTile->x, displayedTile->y, 20);
+            World::BaseWorld::TileCache* cache = world->BuildCache(displayedTile->x, displayedTile->y, bufferRadius);
             while (!cache->empty())
             {
                 World::TileReference t = cache->top();
