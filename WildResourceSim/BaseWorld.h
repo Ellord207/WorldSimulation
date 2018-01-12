@@ -53,8 +53,8 @@ namespace World
 
 		// TileRefences in the Cache can use to get the actual Tiles from the world object  ------  Reference: http://en.cppreference.com/w/cpp/container/priority_queue
 		typedef std::priority_queue<TileReference>TileCache;
-		TileCache* BuildCache(Tile tile, unsigned int radius);
-		TileCache* BuildCache(uint32_t x, uint32_t y, unsigned int radius);
+		void BuildCache(Tile tile, TileCache& cache, unsigned int radius);
+		void BuildCache(uint32_t x, uint32_t y, TileCache& cache, unsigned int radius);
 		Tile* GetGridTile(TileReference tile);			//  Returns a deep copy of the tile
 		
 	private:
@@ -136,21 +136,20 @@ namespace World
 		m_tileGrid.clear();
 	}
 
-	inline BaseWorld::TileCache* BaseWorld::BuildCache(uint32_t x, uint32_t y, unsigned int radius)
+	inline void BaseWorld::BuildCache(uint32_t x, uint32_t y, TileCache& cache, unsigned int radius)
 	{
-		TileCache* cache = new TileCache();
 		CacheArg* cacheArgs = new CacheArg();
-		cacheArgs->Cache = cache;
+		cacheArgs->Cache = &cache;
 		cacheArgs->Orgin_x = x;
 		cacheArgs->Orgin_y = y;
 		void* args = (void*)cacheArgs;
 		OperateOnSphere(x, y, radius, OperationCacheTile, args);
-		return cache;
+        delete cacheArgs;
 	}
 
-	inline BaseWorld::TileCache* BaseWorld::BuildCache(Tile tile, unsigned int radius)
+	inline void BaseWorld::BuildCache(Tile tile, TileCache& cache, unsigned int radius)
 	{
-		return BuildCache(tile.x, tile.y, radius);
+		return BuildCache(tile.x, tile.y, cache, radius);
 	}
 
 	inline Tile* BaseWorld::GetGridTile(TileReference tileRef)

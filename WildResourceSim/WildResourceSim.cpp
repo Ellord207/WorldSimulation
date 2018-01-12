@@ -74,9 +74,9 @@ int main()
     //scanf_s("poop");
 
 	world.Tick();
-	world.BuildCache(3, 6, 3);
-
+    World::BaseWorld::TileCache cache = World::BaseWorld::TileCache();
     World::BaseWorld MassiveTest = World::BaseWorld(500, 500);
+    MassiveTest.BuildCache(3, 6, cache, 32);
 
     return 0;
 }

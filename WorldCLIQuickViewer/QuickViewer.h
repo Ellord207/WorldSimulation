@@ -61,13 +61,14 @@ namespace WorldCLIQuickViewer {
             tileGroup->MouseDown += EH_tBox_mouseDown;
             tileGroup->MouseUp += EH_tBox_mouseUp;
 
-            World::BaseWorld::TileCache* cache = world->BuildCache(10, 10, bufferRadius);
-            while (!cache->empty())
+            World::BaseWorld::TileCache cache = World::BaseWorld::TileCache();
+            world->BuildCache(10, 10, cache, bufferRadius);
+            while (!cache.empty())
             {
-                World::TileReference t = cache->top();
+                World::TileReference t = cache.top();
                 Model::TileBox^ tBox = InitializeTileBox(t);
                 tileGroup->Controls->Add(tBox);
-                cache->pop();
+                cache.pop();
             }
 
             //for (int c = 0; c < w; c++)
@@ -411,13 +412,14 @@ namespace WorldCLIQuickViewer {
             tileGroup->Visible = false;
             tileGroup->Controls->Clear();
 
-            World::BaseWorld::TileCache* cache = world->BuildCache(displayedTile->x, displayedTile->y, bufferRadius);
-            while (!cache->empty())
+            World::BaseWorld::TileCache cache = World::BaseWorld::TileCache();
+            world->BuildCache(displayedTile->x, displayedTile->y, cache, bufferRadius);
+            while (!cache.empty())
             {
-                World::TileReference t = cache->top();
+                World::TileReference t = cache.top();
                 Model::TileBox^ tBox = InitializeTileBox(t);
                 tileGroup->Controls->Add(tBox);
-                cache->pop();
+                cache.pop();
             }
             tileGroup->Visible = true;
             tileGroup->Enabled = true;
