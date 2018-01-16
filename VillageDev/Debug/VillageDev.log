@@ -1,33 +1,23 @@
 ﻿  stdafx.cpp
   VillageDev.cpp
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\nature.h(58): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(90): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(91): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(97): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(98): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(99): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(105): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(106): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(109): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(114): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(115): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(116): error C2039: 'max': is not a member of 'std'
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stddef.h(18): note: see declaration of 'std'
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(116): error C3861: 'max': identifier not found
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(123): error C2039: 'max': is not a member of 'std'
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stddef.h(18): note: see declaration of 'std'
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(123): error C3861: 'max': identifier not found
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(128): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(130): error C2039: 'max': is not a member of 'std'
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stddef.h(18): note: see declaration of 'std'
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(130): error C3861: 'max': identifier not found
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(135): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(136): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(163): error C2039: 'exp': is not a member of 'std'
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stddef.h(18): note: see declaration of 'std'
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(163): error C3861: 'exp': identifier not found
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(99): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(100): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(107): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(108): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(109): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(115): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(116): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(119): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(125): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(133): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(135): warning C4244: '=': conversion from 'const double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(141): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(148): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(149): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\tile.h(342): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
 c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(22): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(82): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(161): warning C4018: '<': signed/unsigned mismatch
-c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(163): warning C4018: '<': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(90): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(188): warning C4018: '>=': signed/unsigned mismatch
+c:\users\nathan.elrod.bentley\documents\visual studio 2015\projects\worldsimulation\wildresourcesim\baseworld.h(191): warning C4018: '>=': signed/unsigned mismatch
+  VillageDev.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\VillageDev.exe
+  VillageDev.vcxproj -> C:\Users\Nathan.Elrod.BENTLEY\documents\visual studio 2015\Projects\WorldSimulation\Debug\VillageDev.pdb (Full PDB)

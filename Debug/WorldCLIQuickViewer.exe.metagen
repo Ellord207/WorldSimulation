@@ -19,7 +19,10 @@ Class Model.TileBox: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(Tile*, Int32, System.EventHandler): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     Tile* tile : Public
-    System.Drawing.Color[] randColor : Public, Static
+    System.Drawing.Color[] PalletColor : Public, Static
+  Methods:
+    Blend(Color, Color, Double): PrivateScope, Public, Static, HideBySig
+    CalcuateColor(): PrivateScope, Public, HideBySig
 Class WorldCLIQuickViewer.QuickViewer: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
