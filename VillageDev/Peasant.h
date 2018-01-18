@@ -6,6 +6,8 @@ public:
 	Peasant();
 	~Peasant();
 	void Initialize();
+    void UpdateStats(int timePassed);
+    bool IsDead();
 
 	int mHealth;
 	int mLevel;

@@ -34,9 +34,15 @@ void VillageManager::Tick()
 	//loop through all peasants and subtract hunger and fatigue
 	for (int i = 0; i < mVillage->mPeasants->size(); i++)
 	{
-		mVillage->mPeasants->at(i)->mHunger -= mHungerRate;
-		mVillage->mPeasants->at(i)->mFatigue -= mFatigueRate;
+        mVillage->mPeasants->at(i)->UpdateStats(mTimeSpeed);
 
 		//check to see if peasants have died
+        //if (mVillage->mPeasants->at(i)->IsDead())
+
 	}
 }
+
+void VillageManager::PeasantStatReport(Peasant* peasant)
+    {
+
+    }
