@@ -22,7 +22,7 @@
     <ProjectGuid>{C2E8BF62-8847-46F7-965D-6362AB83DB8E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SphereOfInfluanceTesting</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
