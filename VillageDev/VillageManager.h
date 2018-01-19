@@ -9,7 +9,7 @@ public:
 	void Initialize();
 	void StartSimulation(int timeSpeed);
 	void Tick();
-    void PeasantStatReport(Peasant* peasant);
+    void PeasantStatReport();
 
 	Village* mVillage;
 	long int mTimeCount;

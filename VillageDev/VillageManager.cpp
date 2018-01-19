@@ -42,7 +42,21 @@ void VillageManager::Tick()
 	}
 }
 
-void VillageManager::PeasantStatReport(Peasant* peasant)
+void VillageManager::PeasantStatReport()
     {
+    std::vector<Peasant*>* peasants = mVillage->mPeasants;
+    std::cout << std::left << std::setw(15) << "First Name | " << std::setw(15) << "Last Name | " << std::setw(15) << "Health | " <<
+        std::setw(15) << "Hunger | " << std::setw(15) << "Fatigue | " << std::setw(15) << "Status" << std::endl;
+    std::cout << std::setfill('-') << std::setw(80) << " " << std::endl;
+    std::cout << std::setfill(' ') << std::endl;
 
+    
+    for (int i = 0; i < peasants->size(); i++)
+        {
+        std::cout << std::setw(15) << peasants->at(i)->mFirstName << std::setw(15) << peasants->at(i)->mLastName << std::setw(15) <<
+            peasants->at(i)->mHealth << std::setw(15) << peasants->at(i)->mHunger << std::setw(15) << peasants->at(i)->mFatigue <<
+            (peasants->at(i)->IsDead() ? "Dead" : "Alive") << std::endl;
+        }
+    
+    std::cout << std::endl;
     }
