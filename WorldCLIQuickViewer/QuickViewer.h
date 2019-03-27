@@ -359,6 +359,7 @@ namespace WorldCLIQuickViewer {
 
         }
 #pragma endregion
+
     private: System::Void tileBox_mouseEnter(System::Object^  sender, System::EventArgs^  e)
     {
         Model::TileBox^ tBox = dynamic_cast<Model::TileBox^>(sender);
