@@ -3,11 +3,14 @@
 
 #include "stdafx.h"
 #include "TileLevelTest.h"
-//#include "../WildResourceSim/BaseWorld.h"
+#include <iostream>
+#include <string>
 
 int main()
 {
 	TileAndBiomeTests();
+
+    system("PAUSE");
 
     return 0;
 }

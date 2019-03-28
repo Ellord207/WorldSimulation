@@ -1,14 +1,11 @@
 #pragma once
 
 #include "../WildResourceSim/BaseWorld.h"
-#include <string.h>
-#include <stdio.h>
 #include <iostream>
 #include <iomanip>
 
 #define COUT_FOR_TEST std::cout << std::left << std::setw(OUTWIDTH)
 #define COUT_BAR std::cout << std::left << std::setw(OUTWIDTH/2) << "----------------------"
-
 
 void TileAndBiomeTests()
 {
@@ -17,7 +14,7 @@ void TileAndBiomeTests()
 	float forst1Mag = 40, forst2Mag = 30, mount1Mag = 50, desert1Mag = 40;
 
 	// Yeah, I can't decide if I'm using C or C++.  Get over it.  At least there's no C# yet.
-	printf("Welcome to Nature's resource sim.\n");
+	// printf("Welcome to Nature's resource sim.\n");
 	COUT_FOR_TEST << " - Test Description - " << "Test output" << std::endl;
 
 	// Basic functionality Tests
@@ -28,12 +25,12 @@ void TileAndBiomeTests()
 	world.SetBiome(4, 6, 1, Nature::Desert, desert1Mag);
 
 	COUT_BAR << "World Unfinalized" << std::endl;
-	COUT_FOR_TEST << "Is world NOT finalized: " << !world.GetGridTile(4, 6).IsFinalized() << std::endl;
+	COUT_FOR_TEST << "Is world NOT finalized: " << !world.GetGridTile(4, 6)->IsFinalized() << std::endl;
 
 	//Multiple biomes Test
-	COUT_FOR_TEST << "There is Overlaped Forest: " << (2 == world.GetGridTile(4, 6).GetBiome(Nature::Forest, overlappingForest)) << std::endl;
-	COUT_FOR_TEST << "There is Forest: " << world.GetGridTile(4, 4).GetBiome(Nature::Forest, singleForest) << std::endl;
-	COUT_FOR_TEST << "There is Mountains: " << world.GetGridTile(4, 4).GetBiome(Nature::Mountains, singleMount) << std::endl;
+	COUT_FOR_TEST << "There is Overlaped Forest: " << (2 == world.GetGridTile(4, 6)->GetBiome(Nature::Forest, overlappingForest)) << std::endl;
+	COUT_FOR_TEST << "There is Forest: " << world.GetGridTile(4, 4)->GetBiome(Nature::Forest, singleForest) << std::endl;
+	COUT_FOR_TEST << "There is Mountains: " << world.GetGridTile(4, 4)->GetBiome(Nature::Mountains, singleMount) << std::endl;
 	COUT_FOR_TEST << "There is NO Wasteland: " << !world.IsBiome(4, 4, Nature::Wasteland) << std::endl;
 
 	//Magnitude Test
@@ -41,24 +38,24 @@ void TileAndBiomeTests()
 	COUT_FOR_TEST << "Mag Forest correct: " << (forst1Mag == singleForest.magnitude) << std::endl;
 	COUT_FOR_TEST << "Mag Mountains correct: " << (mount1Mag == singleMount.magnitude) << std::endl;
 
-	world.FinalizeWorld();
 	COUT_BAR << "World Finalized" << std::endl;
+    world.FinalizeWorld();
 
-	COUT_FOR_TEST << "Is world finalized: " << world.GetGridTile(4, 6).IsFinalized() << std::endl;
+	COUT_FOR_TEST << "Is world finalized: " << world.GetGridTile(4, 6)->IsFinalized() << std::endl;
 
 	// Default Biome Test
 	COUT_FOR_TEST << "There is Wasteland: " << world.IsBiome(1, 1, Nature::Wasteland) << std::endl;
 	COUT_FOR_TEST << "There is NO Desert: " << !world.IsBiome(1, 1, Nature::Desert) << std::endl;
 
 	//Multiple biomes Test
-	COUT_FOR_TEST << "There is Overlaped Forest: " << world.GetGridTile(4, 6).GetBiome(Nature::Forest, overlappingForest) << std::endl;
-	COUT_FOR_TEST << "There is Forest: " << world.GetGridTile(4, 4).GetBiome(Nature::Forest, singleForest) << std::endl;
-	COUT_FOR_TEST << "There is Mountains: " << world.GetGridTile(4, 4).GetBiome(Nature::Mountains, singleMount) << std::endl;
+	COUT_FOR_TEST << "There is Overlaped Forest: " << world.GetGridTile(4, 6)->GetBiome(Nature::Forest, overlappingForest) << std::endl;
+	COUT_FOR_TEST << "There is Forest: " << world.GetGridTile(4, 4)->GetBiome(Nature::Forest, singleForest) << std::endl;
+	COUT_FOR_TEST << "There is Mountains: " << world.GetGridTile(4, 4)->GetBiome(Nature::Mountains, singleMount) << std::endl;
 	COUT_FOR_TEST << "There is NO Wasteland: " << !world.IsBiome(4, 4, Nature::Wasteland) << std::endl;
 
 	//Magnitude Test
-	float combMag = ((forst1Mag + forst2Mag) / 2) / (((forst1Mag + forst2Mag) / 2.00) + mount1Mag + desert1Mag) * 100.00;
-	COUT_FOR_TEST << "Mag Overlaped Forest: " << (combMag == overlappingForest.magnitude) << std::endl;
+    double combMag = ((forst1Mag + forst2Mag) / 2) / (((forst1Mag + forst2Mag) / 2.00) + mount1Mag + desert1Mag) * 100.00;
+    COUT_FOR_TEST << "Mag Overlaped Forest: " << (combMag == overlappingForest.magnitude) << std::endl;
 	COUT_FOR_TEST << "Mag Forest correct: " << (forst1Mag == singleForest.magnitude) << std::endl;
 	COUT_FOR_TEST << "Mag Mountains correct: " << (mount1Mag == singleMount.magnitude) << std::endl;
 

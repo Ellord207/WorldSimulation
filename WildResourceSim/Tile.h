@@ -302,7 +302,6 @@ inline int Tile::GetBiome(Nature::BiomeType biomeType, Nature::Biome& biome)
 	int length = GetBiomeCount();
 	int biomeCounter = 0;
 
-
 	for (int i = 0; i < length; i++)
 	{
 		if (m_biomes[i].type != biomeType)
